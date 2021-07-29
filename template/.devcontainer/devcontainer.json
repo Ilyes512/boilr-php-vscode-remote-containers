@@ -1,0 +1,22 @@
+{
+    "name": "{{ kebabcase Name }}",
+    "remoteUser": "code",
+    "dockerComposeFile": ["docker-compose.yml"],
+    "service": "php",
+    "workspaceFolder": "/workspace",
+    "settings": {
+        "terminal.integrated.shell.linux": "bash",
+    },
+    // "shutdownAction": "none",
+    "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "redhat.vscode-yaml",
+        "esbenp.prettier-vscode",
+        "emallin.phpunit",
+        "mehedidracula.php-namespace-resolver",
+        "editorconfig.editorconfig",
+        "mhutchie.git-graph",
+        "felixfbecker.php-debug",
+        "ms-vsliveshare.vsliveshare",
+    ]
+}

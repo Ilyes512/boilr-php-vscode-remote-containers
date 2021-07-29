@@ -1,0 +1,60 @@
+version: "3"
+
+silent: true
+
+vars:
+  BOILR_TEMPLATE_NAME: vscode-remote-containers-php
+  BOILR_TEMPLATE_TEST_NAME: "{{.BOILR_TEMPLATE_NAME}}-test"
+
+########################################################################################################################
+#
+# TOC
+#
+########################################################################################################################
+#
+# 1. BOILR
+# 2. TEST
+#
+########################################################################################################################
+
+tasks:
+
+########################################################################################################################
+#
+#  1. BOILR
+#
+########################################################################################################################
+
+  update:
+    desc: Update the current boilr template
+    deps: [remove-ds-store]
+    cmds:
+      - boilr template save . {{.BOILR_TEMPLATE_NAME}} -f
+
+  # Remove all .DS_Store files
+  remove-ds-store: find . -name .DS_Store -type f -delete
+
+########################################################################################################################
+#
+#  2. TEST
+#
+########################################################################################################################
+
+  test:
+    desc: Test template
+    deps: [remove-ds-store]
+    cmds:
+      - boilr template save . "{{.BOILR_TEMPLATE_TEST_NAME}}" -f
+      - rm -rf "../{{.BOILR_TEMPLATE_TEST_NAME}}"
+      - boilr template use "{{.BOILR_TEMPLATE_TEST_NAME}}" "../{{.BOILR_TEMPLATE_TEST_NAME}}"
+
+  test:cleanup:
+    desc: Cleanup test files
+    dir: ..
+    preconditions:
+      - sh: test -d "{{.BOILR_TEMPLATE_TEST_NAME}}"
+        msg: "No test directory found!"
+    cmds:
+      - cd "{{.BOILR_TEMPLATE_TEST_NAME}}"; task dc:down
+      - rm -rf "{{.BOILR_TEMPLATE_TEST_NAME}}"
+      - boilr template delete {{.BOILR_TEMPLATE_TEST_NAME}}
