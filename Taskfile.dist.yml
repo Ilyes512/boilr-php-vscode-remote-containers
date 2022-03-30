@@ -3,7 +3,7 @@ version: "3"
 silent: true
 
 vars:
-  BOILR_TEMPLATE_NAME: vscode-remote-containers-php
+  BOILR_TEMPLATE_NAME: php-vscode-remote-containers
   BOILR_TEMPLATE_TEST_NAME: "{{.BOILR_TEMPLATE_NAME}}-test"
 
 ########################################################################################################################
@@ -26,7 +26,7 @@ tasks:
 ########################################################################################################################
 
   update:
-    desc: Update the current boilr template
+    desc: Update the boilr template
     deps: [remove-ds-store]
     cmds:
       - boilr template save . {{.BOILR_TEMPLATE_NAME}} -f
@@ -41,19 +41,21 @@ tasks:
 ########################################################################################################################
 
   test:
-    desc: Test template
-    deps: [remove-ds-store]
+    desc: Test the boilr template
+    deps: [remove-ds-store, test:cleanup]
     cmds:
       - boilr template save . "{{.BOILR_TEMPLATE_TEST_NAME}}" -f
-      - rm -rf "../{{.BOILR_TEMPLATE_TEST_NAME}}"
-      - boilr template use "{{.BOILR_TEMPLATE_TEST_NAME}}" "../{{.BOILR_TEMPLATE_TEST_NAME}}"
+      - boilr template use "{{.BOILR_TEMPLATE_TEST_NAME}}" "../{{.BOILR_TEMPLATE_TEST_NAME}}" -f
+      - git -C ../{{.BOILR_TEMPLATE_TEST_NAME}} init
+      - git -C ../{{.BOILR_TEMPLATE_TEST_NAME}} add .
+      - git -C ../{{.BOILR_TEMPLATE_TEST_NAME}} commit -m "Initial commit"
+      - code ../{{.BOILR_TEMPLATE_TEST_NAME}}
 
   test:cleanup:
-    desc: Cleanup test files
+    desc: Cleanup boilr template test files
     dir: ..
-    preconditions:
-      - sh: test -d "{{.BOILR_TEMPLATE_TEST_NAME}}"
-        msg: "No test directory found!"
+    status:
+       - test ! -d "{{.BOILR_TEMPLATE_TEST_NAME}}"
     cmds:
       - cd "{{.BOILR_TEMPLATE_TEST_NAME}}"; task dc:down
       - rm -rf "{{.BOILR_TEMPLATE_TEST_NAME}}"
