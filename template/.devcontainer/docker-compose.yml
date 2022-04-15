@@ -7,7 +7,7 @@ services:
       context: ../.
       dockerfile: .devcontainer/Dockerfile
       args:
-        IMAGE_REGISTRY_PHP_VSCODE: $IMAGE_REGISTRY_PHP_VSCODE
+        IMAGE_REGISTRY_PHP: $IMAGE_REGISTRY_PHP
         IMAGE_TAG_PHP_VSCODE: $IMAGE_TAG_PHP_VSCODE
     volumes:
       - $HOME/.ssh/known_hosts:/home/code/.ssh/known_hosts:ro
