@@ -20,4 +20,6 @@ RUN groupadd --gid "$USER_GID" "$USERNAME" \
 
 WORKDIR $WORKSPACE_PATH
 
+ENV PATH=$PATH:${WORKSPACE_PATH}/vendor/bin
+
 CMD ["docker-cmd.sh"]
