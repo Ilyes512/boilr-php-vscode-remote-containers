@@ -12,8 +12,8 @@
         "bmewburn.vscode-intelephense-client",
         "redhat.vscode-yaml",
         "mehedidracula.php-namespace-resolver",
-        "Editorconfig.Editorconfig",
-        "felixfbecker.php-debug",
-        // "mhutchie.git-graph",
+        "xdebug.php-debug",
+        "EditorConfig.EditorConfig",
+        "mhutchie.git-graph",
     ]
 }
