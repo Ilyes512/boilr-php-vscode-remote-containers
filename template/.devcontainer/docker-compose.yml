@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   php:
-    image: vscode-remote-containers-php:latest
+    image: ${COMPOSE_PROJECT_NAME}-php-vscode:latest
     entrypoint: ["sh", "-c", "trap : 15 ; sleep 9999d & wait"]
     build:
       context: ../.
